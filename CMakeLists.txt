@@ -34,6 +34,14 @@ install(
     DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/cmake
 )
 
+# Add tests
+option(RCV_BUILD_TESTS "Build tests" OFF)
+if(RCV_BUILD_TESTS)
+	find_package(Catch2 3 REQUIRED)
+	enable_testing()
+	add_subdirectory(tests)
+endif()
+
 include(CMakePackageConfigHelpers)
 
 # Create package config file
