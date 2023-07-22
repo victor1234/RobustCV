@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.16)
 
 project(RobustCV VERSION 0.0.1)
 
-
 # Create target
 set(RCV_TARGET_NAME ${PROJECT_NAME})
 add_library(${RCV_TARGET_NAME} INTERFACE)
@@ -13,7 +12,7 @@ add_library(${RCV_TARGET_NAME}::${RCV_TARGET_NAME} ALIAS ${RCV_TARGET_NAME})
 # Include paths
 target_include_directories(
     ${RCV_TARGET_NAME}
-	INTERFACE
+    INTERFACE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
@@ -37,9 +36,9 @@ install(
 # Add tests
 option(RCV_BUILD_TESTS "Build tests" OFF)
 if(RCV_BUILD_TESTS)
-	find_package(Catch2 3 REQUIRED)
-	enable_testing()
-	add_subdirectory(tests)
+    find_package(Catch2 3 REQUIRED)
+    enable_testing()
+    add_subdirectory(tests)
 endif()
 
 include(CMakePackageConfigHelpers)
@@ -66,7 +65,4 @@ install(
 )
 
 # Install headers
-install(
-	DIRECTORY ${PROJECT_SOURCE_DIR}/RobustCV
-    TYPE INCLUDE
-)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/RobustCV TYPE INCLUDE)
