@@ -42,7 +42,7 @@ jobs:
 
       - name: Set VCPKG_TOOLKIT
         if: matrix.os != 'windows-2022'
-        run: echo "VCPKG_TOOLKIT=/usr/local/share/vcpkg" >> $GITHUB_ENV
+        run: echo "VCPKG_TOOLKIT=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake" >> $GITHUB_ENV
 
       - name: Set VCPKG_TOOLKIT
         if: matrix.os == 'windows-2022'
