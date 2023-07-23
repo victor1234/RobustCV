@@ -34,16 +34,19 @@ jobs:
       matrix:
         build_type: [ Release ]
         os: [ ubuntu-22.04, windows-2022, macos-13 ]
-        vcpkg_toolkit: [/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake]
-
-        include:
-          - os: windows-2022
-            vcpkg_toolkit: C:/vcpkg/scripts/buildsystems/vcpkg.cmake
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - name: Set VCPKG_TOOLKIT
+        if: matrix.os != 'windows-2022'
+        run: echo "VCPKG_TOOLKIT=/usr/local/share/vcpkg" >> $GITHUB_ENV
+
+      - name: Set VCPKG_TOOLKIT
+        if: matrix.os == 'windows-2022'
+        run: echo "VCPKG_TOOLKIT=C:/vcpkg/scripts/buildsystems/vcpkg.cmake" >> $env:GITHUB_ENV
 
       - name: Install pkg-config for vcpkg
         if: matrix.os == 'macos-13'
@@ -58,7 +61,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -DCMAKE_TOOLCHAIN_FILE=${{ matrix.vcpkg_toolkit }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}  ..
+          cmake -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_TOOLKIT }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}  ..
           cmake --build . -j --config ${{ matrix.build_type }}
 
       - name: Run tests
