@@ -1,12 +1,12 @@
 #include <RobustCV/Matrix.hpp>
 
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_template_test_macros.hpp>
 
-TEST_CASE("Matrix", "[Matrix]")
+TEMPLATE_TEST_CASE("Matrix", "[Matrix]", int, unsigned int, float, double)
 {
 	SECTION("Default constructor")
 	{
-		rcv::Matrix<int> m;
+		rcv::Matrix<TestType> m;
 		REQUIRE(m.rows() == 0);
 		REQUIRE(m.columns() == 0);
 	}
