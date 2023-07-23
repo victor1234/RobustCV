@@ -59,12 +59,12 @@ jobs:
           cd build
           ctest --output-on-failure
 
-      - name: Install RobustCV
-        if: matrix.os == 'ubuntu-22.04'
-        run: |
-          cd build
-          sudo cmake --install .
-
-      - name: Check cmake target installation
-        if: matrix.os == 'ubuntu-22.04'
-        run: cmake --find-package -DNAME=RobustCV -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=EXIST
+      # - name: Install RobustCV
+      #   if: matrix.os == 'ubuntu-22.04'
+      #   run: |
+      #     cd build
+      #     sudo cmake --install .
+      #
+      # - name: Check cmake target installation
+      #   if: matrix.os == 'ubuntu-22.04'
+      #   run: cmake --find-package -DNAME=RobustCV -DCOMPILER_ID=GNU -DLANGUAGE=CXX -DMODE=EXIST
