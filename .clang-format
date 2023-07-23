@@ -1,0 +1,9 @@
+# v16.0.6
+
+ColumnLimit: 120
+
+IndentWidth: 4
+TabWidth: 4
+UseTab: Always
+
+BreakBeforeBraces: WebKit
