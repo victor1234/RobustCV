@@ -12,6 +12,9 @@ on:
       - README.md
       - CHANGELOG.md
 
+env:
+  VCPKG_TOOLKIT: $VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake
+
 jobs:
   format_check:
     name: Check C++ format and style
@@ -51,7 +54,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_INSTALLATION_ROOT }}/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}  ..
+          cmake -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_TOOLKIT }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}  ..
           cmake --build . -j --config ${{ matrix.build_type }}
 
       - name: Run tests
