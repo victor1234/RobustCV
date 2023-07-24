@@ -7,20 +7,24 @@ template <typename T> class Matrix {
   public:
 	Matrix();
 
-	int rows() const;
-	int columns() const;
+	unsigned int rows() const;
+	unsigned int columns() const;
+	unsigned int channels() const;
 
   private:
 	std::vector<T> data;
-	int _rows;
-	int _columns;
+	unsigned int _rows;
+	unsigned int _columns;
+	unsigned int _channels;
 };
 } // namespace rcv
 
 namespace rcv {
-template <typename T> Matrix<T>::Matrix() : _rows(0), _columns(0) {}
+template <typename T> Matrix<T>::Matrix() : _rows(0), _columns(0), _channels(0) {}
 
-template <typename T> int Matrix<T>::rows() const { return _rows; }
+template <typename T> unsigned int Matrix<T>::rows() const { return _rows; }
 
-template <typename T> int Matrix<T>::columns() const { return _columns; }
+template <typename T> unsigned int Matrix<T>::columns() const { return _columns; }
+
+template <typename T> unsigned int Matrix<T>::channels() const { return _channels; }
 } // namespace rcv

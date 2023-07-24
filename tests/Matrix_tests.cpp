@@ -9,5 +9,6 @@ TEMPLATE_TEST_CASE("Matrix", "[Matrix]", int, unsigned int, float, double)
 		rcv::Matrix<TestType> m;
 		REQUIRE(m.rows() == 0);
 		REQUIRE(m.columns() == 0);
+		REQUIRE(m.channels() == 0);
 	}
 }
