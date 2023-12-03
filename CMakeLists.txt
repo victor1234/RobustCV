@@ -2,6 +2,27 @@ cmake_minimum_required(VERSION 3.16)
 
 project(RobustCV VERSION 0.0.1)
 
+# Meta target
+add_library(rcv_meta INTERFACE)
+
+# Include paths
+target_include_directories(
+  rcv_meta
+    INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+
+# Set compiler features
+target_compile_features(rcv_meta INTERFACE cxx_std_17)
+set_target_properties(rcv_meta PROPERTIES CXX_STANDARD_REQUIRED ON)
+
+# Find dependencies
+find_package(JPEG REQUIRED)
+
+# Link dependencies
+target_link_libraries(rcv_meta INTERFACE JPEG::JPEG)
+
 # Create target
 set(RCV_TARGET_NAME ${PROJECT_NAME})
 add_library(${RCV_TARGET_NAME} INTERFACE)
@@ -9,29 +30,8 @@ add_library(${RCV_TARGET_NAME} INTERFACE)
 # Add alias
 add_library(${RCV_TARGET_NAME}::${RCV_TARGET_NAME} ALIAS ${RCV_TARGET_NAME})
 
-# Include paths
-target_include_directories(
-    ${RCV_TARGET_NAME}
-    INTERFACE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-)
-
-# Set compiler features
-target_compile_features(${RCV_TARGET_NAME} INTERFACE cxx_std_17)
-set_target_properties(${RCV_TARGET_NAME} PROPERTIES CXX_STANDARD_REQUIRED ON)
-
-# Install rules
-include(GNUInstallDirs)
-
-# Create package targets file
-install(TARGETS ${RCV_TARGET_NAME} EXPORT ${RCV_TARGET_NAME}-target)
-install(
-    EXPORT ${RCV_TARGET_NAME}-target
-    FILE ${RCV_TARGET_NAME}-targets.cmake
-    NAMESPACE ${RCV_TARGET_NAME}::
-    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/cmake
-)
+# Add sources
+add_subdirectory(sources)
 
 # Add tests
 option(RCV_BUILD_TESTS "Build tests" OFF)
@@ -40,6 +40,19 @@ if(RCV_BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif()
+
+
+# Install rules
+include(GNUInstallDirs)
+
+# Create package targets file
+install(TARGETS ${RCV_TARGET_NAME} rcv_meta io EXPORT ${RCV_TARGET_NAME}-target)
+install(
+    EXPORT ${RCV_TARGET_NAME}-target
+    FILE ${RCV_TARGET_NAME}-targets.cmake
+    NAMESPACE ${RCV_TARGET_NAME}::
+    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/cmake
+)
 
 include(CMakePackageConfigHelpers)
 
